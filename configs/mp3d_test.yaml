@@ -1,0 +1,31 @@
+datasets:
+  root_dir: ""
+  split: "./splits/mp3d_test.txt"
+  min_depth: 0.01
+  max_depth: 10.0
+  min_conf: 0.35
+  real_height: 1.0
+
+depth_model:
+  name: "metric3d"
+
+refine:
+  scale_nb: 3
+  lambda_depth_consistency: [0.5, 0.5, 0.5]
+  lambda_normal_consistency: [10.0, 10.0, 10.0]
+  lambda_regularization: [50, 50, 50]
+  gamma_regularization: [0.5, 0.5, 0.5]
+  window_size: [9, 9, 9]
+  patch_size: [3, 3, 3]
+  sigma_int: [0.07, 0.07, 0.07]
+  sigma_spa: [3.0, 3.0, 3.0]
+  degree_max: [20, 20, 20]
+  regularization: 1                      # 0 for NLTGV, 1 for joint-graph
+  iter_max: [300, 150, 30]
+  eps_stop: [0.000001, 0.000001, 0.000001]
+  attempt_max: [50, 50, 50]
+  lr_start: [0.5, 0.05, 0.005]
+  lr_slot_nb: [2, 2, 1]
+
+save:
+  output_dir: "./workdir/mp3d"
