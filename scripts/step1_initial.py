@@ -20,7 +20,7 @@ from src.utils import (
     parse_train_config,
 )
 from src.refine.refinement import refine_depth_ERP, get_refine_params
-from src.camera.Projection import Cube2Equirec, EquirecGrid, Equirec2Cube, EquirecRotate
+from src.camera.Projection import Cube2Equirec, EquirecGrid, Equirec2Cube
 
 
 def parse_args():
@@ -158,13 +158,6 @@ if __name__ == "__main__":
         h, w = image.shape[:2]
         if w // 2 != h:
             image = cv2.resize(image, (h * 2, h), interpolation=cv2.INTER_LINEAR)
-
-        if "Dur360BEV" in image_path:
-            er = EquirecRotate(equ_h=512)
-            img_t = torch.from_numpy(image / 255.0).permute(2, 0, 1)[None].float()
-            img_t = er(img_t, axis_angle=torch.tensor([[90.0 / 180.0 * torch.pi, 0.0, 0.0]]))
-            img_t = er(img_t, axis_angle=torch.tensor([[0.0, 180.0 / 180.0 * torch.pi, 0.0]]))
-            image = (img_t[0].permute(1, 2, 0).numpy() * 255.0).astype(np.uint8)
 
         cube, extras = prepare_cube(image, device)
         e2c = extras["e2c"]
